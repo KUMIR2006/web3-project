@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+body {
+  font-family: 'Space Mono', monospace;
+  font-size: 18px;
+}
+
 .background {
   position: relative;
   margin: 0;
@@ -20,4 +25,41 @@
     url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 1000' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' /%3E%3C/svg%3E");
   opacity: 0.6;
   pointer-events: none;
+}
+
+.connectWallet {
+  position: relative;
+  background: transparent;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: #fff solid 1px;
+}
+.connectWallet::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(
+    40deg,
+    rgba(69, 30, 72, 1) 0%,
+    rgba(0, 0, 0, 1) 50%,
+    rgba(35, 44, 126, 1) 100%
+  );
+  z-index: -1;
+  border-radius: 8px;
+  opacity: 0;
+  border: none;
+  transition: opacity 0.3s ease;
+}
+
+.connectWallet:hover::before {
+  opacity: 1;
+  border: none;
+}
+
+.connectWallet:hover {
+  background: transparent;
+  border-color: transparent;
 }

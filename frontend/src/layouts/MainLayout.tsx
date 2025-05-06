@@ -4,6 +4,8 @@ import Header from '../components/Header';
 import { createAppKit } from '@reown/appkit/react';
 import { Ethers5Adapter } from '@reown/appkit-adapter-ethers5';
 import { monadTestnet } from '@reown/appkit/networks';
+import { useAppKitAccount } from '@reown/appkit/react';
+import ConnectWallet from '../components/ConnectWallet';
 // 1. Get projectId
 const projectId = 'project_id';
 
@@ -29,13 +31,20 @@ export const modal = createAppKit({
 });
 
 const MainLayout: React.FC = () => {
+  const { address, isConnected, caipAddress, status, embeddedWalletInfo } = useAppKitAccount();
   return (
     <div className="wrapper">
       <div className="background" />
       <div className="fixed flex flex-col top-0 left-0 w-full h-full text-white">
         <Header />
         <div className="flex justify-center w-full h-full">
-          <Outlet />
+          {isConnected ? (
+            <Outlet />
+          ) : (
+            <div className="flex items-center">
+              <ConnectWallet />
+            </div>
+          )}
         </div>
       </div>
     </div>
