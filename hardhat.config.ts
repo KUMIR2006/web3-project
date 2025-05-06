@@ -30,7 +30,6 @@ const config: HardhatUserConfig = {
       blockGasLimit: 30000000,
     },
     'monad-testnet': {
-      // url: `https://monad-testnet.blockvision.org/v1/${process.env.BLOCKVISION_API_KEY}`,
       url: `https://testnet-rpc.monad.xyz`,
       accounts: [process.env.PRIVATE_KEY!],
       chainId: 10143, // Chain ID Monad Testnet

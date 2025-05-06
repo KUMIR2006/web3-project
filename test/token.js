@@ -40,6 +40,23 @@ async function main() {
   } catch {
     console.log('УСПЕХ: mintForOwner защищен');
   }
+
+  console.log('\nЗапуск 100 mint операций с задержкой 300 мс...');
+  await runMintOperations(token, owner);
+  console.log('Все 100 mint операций завершены!');
+}
+
+async function runMintOperations(token, owner) {
+  for (let i = 0; i < 1000; i++) {
+    console.log(`\nMint операция #${i + 1}`);
+    const tx = await token.connect(owner).mintForOwner(1000);
+    await tx.wait();
+    console.log('Баланс владельца:', await token.balanceOf(owner.address));
+
+    if (i < 999) {
+      await new Promise((resolve) => setTimeout(resolve, 300));
+    }
+  }
 }
 
 main()
