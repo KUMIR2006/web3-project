@@ -464,7 +464,7 @@ const Token = () => {
   }, [isConfirmed]);
 
   return (
-    <div className="flex flex-col justify-between self-center items-center min-w-130 min-h-130 h-23 bg-[#070907]/40  p-[40px] rounded-3xl">
+    <div className="flex flex-col justify-between self-center items-center  min-w-130  min-h-130 h-23 bg-[#070907]/40  p-[40px] rounded-3xl text-sm md:text-lg ">
       <div className="">Token $AFFILIATE</div>
       <div className="flex flex-col items-center">
         <div className="mb-[20px]">Mint 100 $AFFILIATE (accessible for any user)</div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet } from 'react-router';
 import { WagmiProvider } from 'wagmi';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -9,6 +9,7 @@ import { useAppKitAccount } from '@reown/appkit/react';
 
 import ConnectWallet from '../components/ConnectWallet';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const queryClient = new QueryClient();
 const projectId = 'db0718fdf3c48ecf018eb950a222de3c';
@@ -46,15 +47,21 @@ createAppKit({
   },
 });
 
+const pages = [
+  { name: 'Token', path: '/token' },
+  { name: 'NFT', path: '/nft' },
+  { name: 'Swap', path: '/swap' },
+];
 const MainLayout: React.FC = () => {
   const { address, isConnected, caipAddress, status, embeddedWalletInfo } = useAppKitAccount();
+  const [navigationId, setNavigationId] = useState(-1);
   return (
     <WagmiProvider config={wagmiAdapter.wagmiConfig}>
       <QueryClientProvider client={queryClient}>
         <div className="wrapper">
           <div className="background" />
           <div className="fixed flex flex-col top-0 left-0 w-full h-full text-white">
-            <Header />
+            <Header navId={navigationId} setNavId={setNavigationId} pages={pages} />
             <div className="flex justify-center w-full h-full">
               {isConnected ? (
                 <Outlet />
@@ -64,6 +71,7 @@ const MainLayout: React.FC = () => {
                 </div>
               )}
             </div>
+            <Footer navId={navigationId} setNavId={setNavigationId} pages={pages} />
           </div>
         </div>
       </QueryClientProvider>
