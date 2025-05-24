@@ -1,5 +1,7 @@
 import React from 'react';
-import { useWriteContract, useWaitForTransactionReceipt, useAccount } from 'wagmi';
+import { useWriteContract, useWaitForTransactionReceipt, useAccount, useReadContract } from 'wagmi';
+import GradientText from '../blocks/TextAnimations/GradientText/GradientText';
+import { formatUnits } from 'ethers';
 
 const storageSC = '0x389b332edd1099081f00257F18fFB35Fc10025A0';
 
@@ -428,6 +430,21 @@ const Token = () => {
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
     hash: txHash,
   });
+  const { data: balance, refetch } = useReadContract<typeof storageABI, 'balanceOf', [string]>({
+    address: storageSC,
+    abi: storageABI,
+    functionName: 'balanceOf',
+    args: [address],
+    query: {
+      enabled: !!address,
+    },
+  });
+
+  React.useEffect(() => {
+    if (isConfirmed) {
+      refetch();
+    }
+  }, [isConfirmed, refetch]);
 
   const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
@@ -436,7 +453,7 @@ const Token = () => {
   const handleMint = async () => {
     if (!isConnected) return alert('Connect wallet first');
 
-    writeContract({
+    await writeContract({
       address: storageSC,
       abi: storageABI,
       functionName: 'mintHundred',
@@ -447,12 +464,13 @@ const Token = () => {
     if (!isConnected) return alert('Connect wallet first');
     if (!value || Number(value) <= 0) return alert('Enter valid amount');
 
-    writeContract({
+    await writeContract({
       address: storageSC,
       abi: storageABI,
       functionName: 'burn',
       args: [BigInt(value)],
     });
+    setValue('');
   };
 
   // checking status of transaction
@@ -464,7 +482,7 @@ const Token = () => {
   }, [isConfirmed]);
 
   return (
-    <div className="flex flex-col justify-between self-center items-center  min-w-130  min-h-130 h-23 bg-[#070907]/40  p-[40px] rounded-3xl text-sm md:text-lg ">
+    <div className="flex flex-col justify-between self-center items-center  min-w-130  min-h-150 h-23 bg-[#070907]/40  p-[40px] rounded-3xl text-sm md:text-lg ">
       <div className="">Token $AFFILIATE</div>
       <div className="flex flex-col items-center">
         <div className="mb-[20px]">Mint 100 $AFFILIATE (accessible for any user)</div>
@@ -488,6 +506,17 @@ const Token = () => {
           className=" cursor-pointer min-w-[200px] h-[75px] border-solid border-white border rounded-lg hover:border-[#5d2961] ">
           Burn tokens
         </button>
+      </div>
+      <div key={balance === 'bigint' ? balance : '1'} className="w-full border-t-1">
+        <div className="mt-[10px] text-center">Balance:</div>
+        <GradientText animationSpeed={3} showBorder={true} className="mt-[10px]">
+          <div className="font-medium text-2xl ">
+            {typeof balance === 'bigint'
+              ? `${Math.floor(Number(formatUnits(balance, 18)))} `
+              : 'Loading...'}
+            $AFFILIATE
+          </div>
+        </GradientText>
       </div>
     </div>
   );
