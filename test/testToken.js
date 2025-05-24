@@ -13,7 +13,7 @@ async function main() {
   const owner = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
   const user = new ethers.Wallet(process.env.PRIVATE_KEY2, provider);
 
-  const contractAddress = '0xBC2C66457cb9DaE27377028dBAf4053F84499c45';
+  const contractAddress = '0x389b332edd1099081f00257F18fFB35Fc10025A0';
 
   const token = new ethers.Contract(contractAddress, TokenArtifact.abi, owner);
 
@@ -41,9 +41,9 @@ async function main() {
     console.log('УСПЕХ: mintForOwner защищен');
   }
 
-  console.log('\nЗапуск 100 mint операций с задержкой 300 мс...');
-  await runMintOperations(token, owner);
-  console.log('Все 100 mint операций завершены!');
+  // console.log('\nЗапуск 100 mint операций с задержкой 300 мс...');
+  // await runMintOperations(token, owner);
+  // console.log('Все 100 mint операций завершены!');
 }
 
 async function runMintOperations(token, owner) {
