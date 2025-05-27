@@ -29,7 +29,9 @@ contract NFT is ERC1155, Ownable {
     mapping(address => uint256) public lastMintTime;
     mapping(uint256 => string) private _tokenNames;
 
-    uint256 public constant TOKEN_COST = 300 * 10**18;
+    event NFTMinted(address indexed user, uint256 tokenId, Rarity rarity);
+    event UpgradeStarted(address indexed user, uint256 rarity);
+    event UpgradeCompleted(address indexed user, uint256 tokenId, uint256 newRarity);
 
     constructor() ERC1155("ipfs://bafybeigvhkzlbjfup3ne63pxgxrstwrmvvvkj2uvqts7smdaidi4ss3doy/{id}.json") Ownable(msg.sender) {
         _addNftType(Rarity.COMMON, "Common Voyager");
@@ -71,6 +73,8 @@ contract NFT is ERC1155, Ownable {
        
         _mint(msg.sender, tokenId, 1, "");
         lastMintTime[msg.sender] = block.timestamp;
+
+        emit NFTMinted(msg.sender, tokenId, rarity);
     }
 
     function startUpgrade(uint256 currentRarity) external {
@@ -95,6 +99,8 @@ contract NFT is ERC1155, Ownable {
             timestamp: block.timestamp,
             isCreated: true
         });
+
+        emit UpgradeStarted(msg.sender, currentRarity);
     }
 
     function finishUpgrade(uint256 currentRarity) external {
@@ -116,6 +122,8 @@ contract NFT is ERC1155, Ownable {
 
         _mint(msg.sender, nextRarityIds[randomIndex], 1, "");
         request.isCreated = false;
+
+        emit UpgradeCompleted(msg.sender, newTokenId, nextRarity);
     }
 
     function min(uint a, uint b) private pure returns (uint) {
