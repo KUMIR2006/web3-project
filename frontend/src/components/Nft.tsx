@@ -247,8 +247,8 @@ const Nft = () => {
         }),
       ]);
 
-      // setUpgradingCommon(common[1]); // например, startedAt
-      // setUpgradingMythical(mythical[1]);
+      setUpgradingCommon(common[1]); // например, startedAt
+      setUpgradingMythical(mythical[1]);
 
       console.log('Common:', common[1]);
       console.log('Mythical:', mythical[1]);
