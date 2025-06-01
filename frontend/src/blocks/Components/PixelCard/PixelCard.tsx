@@ -162,6 +162,7 @@ interface PixelCardProps {
   noFocus?: boolean;
   className?: string;
   children: React.ReactNode;
+  border: string;
 }
 
 interface VariantConfig {
@@ -180,6 +181,7 @@ export default function PixelCard({
   noFocus,
   className = '',
   children,
+  border,
 }: PixelCardProps): JSX.Element {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -307,7 +309,8 @@ export default function PixelCard({
       onMouseLeave={onMouseLeave}
       onFocus={finalNoFocus ? undefined : onFocus}
       onBlur={finalNoFocus ? undefined : onBlur}
-      tabIndex={finalNoFocus ? -1 : 0}>
+      tabIndex={finalNoFocus ? -1 : 0}
+      style={{ borderColor: border }}>
       <canvas className="w-full h-full block" ref={canvasRef} />
       {children}
     </div>

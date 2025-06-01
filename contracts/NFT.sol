@@ -123,7 +123,7 @@ contract NFT is ERC1155, Ownable {
         _mint(msg.sender, nextRarityIds[randomIndex], 1, "");
         request.isCreated = false;
 
-        emit UpgradeCompleted(msg.sender, newTokenId, nextRarity);
+        emit UpgradeCompleted(msg.sender, nextRarityIds[randomIndex], nextRarity);
     }
 
     function min(uint a, uint b) private pure returns (uint) {
