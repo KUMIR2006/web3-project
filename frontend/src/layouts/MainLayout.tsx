@@ -50,7 +50,6 @@ createAppKit({
 const pages = [
   { name: 'Token', path: '/token' },
   { name: 'NFT', path: '/nft' },
-  { name: 'Swap', path: '/swap' },
 ];
 const MainLayout: React.FC = () => {
   const { address, isConnected, caipAddress, status, embeddedWalletInfo } = useAppKitAccount();

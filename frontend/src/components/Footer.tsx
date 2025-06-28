@@ -17,7 +17,7 @@ const Footer: React.FC<navigationProps> = ({ navId, setNavId, pages }) => {
 
   return (
     <div className="flex md:hidden justify-center items-center w-full h-23 bg-[#070907]/50  p-[10px] pr-[50px] pl-[50px]">
-      <ul className="flex justify-between w-full p-px gap-10 lg:gap-20">
+      <ul className="flex justify-around w-full p-px gap-10 lg:gap-20">
         {pages.map((page, i) => (
           <Link
             key={i}

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import ConnectWallet from './ConnectWallet';
 import { Link } from 'react-router-dom';
 import { useAppKit, useAppKitAccount } from '@reown/appkit/react';
-import { ethers } from 'ethers';
 
 export type navigationProps = {
   navId: number;
@@ -11,7 +10,7 @@ export type navigationProps = {
 };
 
 const Header: React.FC<navigationProps> = ({ navId, setNavId, pages }) => {
-  const { address, isConnected, caipAddress, status, embeddedWalletInfo } = useAppKitAccount();
+  const { address, isConnected } = useAppKitAccount();
   const [shortAddress, setShortAddress] = useState('');
 
   useEffect(() => {
@@ -19,7 +18,7 @@ const Header: React.FC<navigationProps> = ({ navId, setNavId, pages }) => {
       setShortAddress(`${address.slice(0, 6)}...${address.slice(-4)}`);
     }
   }, [address]);
-  const { open, close } = useAppKit();
+  const { open } = useAppKit();
 
   return (
     <div className="flex justify-between items-center w-full h-23 bg-[#070907]/50  p-[10px] pr-[20px] pl-[20px]">
